@@ -32,13 +32,16 @@ class Population {
   }
 
   evolve(mutationRate) {
+    let newMembers = [];
+
     for (let i = 0; i < this.members.length; i++) {
       let parent1 = randomChoice(this.members, this.probabilities);
       let parent2 = randomChoice(this.members, this.probabilities);
       let child = parent1.crossover(parent2);
       child.mutate(mutationRate);
-      this.members[i] = child;
+      newMembers.push(child);
     }
+    this.members = newMembers;
     this.generation++;
   }
 

@@ -19,10 +19,10 @@ class Member {
 
     while (sequenceLength < this.data.sequenceLength) {
       index2 = Math.floor(Math.random() * this.data.words.length);
-      let pair = this.data.pairs.find(pair => pair.equals(index1, index2));
+      let pairLength = this.data.pairLengths[index1][index2];
 
-      if (sequenceLength + pair.sequenceLength - this.data.words[index1].length <= this.data.sequenceLength) {
-        sequenceLength += (pair.sequenceLength - this.data.words[index1].length);
+      if (sequenceLength + pairLength - this.data.words[index1].length <= this.data.sequenceLength) {
+        sequenceLength += (pairLength - this.data.words[index1].length);
         genes.push(index2);
         index1 = index2;
       } else break;
@@ -36,9 +36,9 @@ class Member {
     let sequence = this.data.words[this.genes[0]];
 
     for (let i = 1; i < this.genes.length; i++) {
-      let pair = this.data.pairs.find(pair => pair.equals(this.genes[i - 1], this.genes[i]));
+      let pairLength = this.data.pairLengths[this.genes[i - 1]][this.genes[i]];
       let word = this.data.words[this.genes[i]];
-      sequence += word.substring(word.length - (pair.sequenceLength - word.length));
+      sequence += word.substring(word.length - (pairLength - word.length));
     }
 
     this.sequence = sequence;
@@ -62,8 +62,8 @@ class Member {
       index2 = this.genes[i];
 
       if (typeof index1 !== 'undefined') {
-        let pair = this.data.pairs.find(pair => pair.equals(index1, index2));
-        sequenceLength += (pair.sequenceLength - this.data.words[index1].length);
+        let pairLength = this.data.pairLengths[index1][index2];
+        sequenceLength += (pairLength - this.data.words[index1].length);
       } else {
         sequenceLength += this.data.words[index2].length;
       }
@@ -78,9 +78,9 @@ class Member {
       index2 = partner.genes[i];
 
       if (typeof index1 !== 'undefined') {
-        let pair = this.data.pairs.find(pair => pair.equals(index1, index2));
-        if (sequenceLength + pair.sequenceLength - this.data.words[index1].length <= this.data.sequenceLength) {
-          sequenceLength += (pair.sequenceLength - this.data.words[index1].length);
+        let pairLength = this.data.pairLengths[index1][index2];
+        if (sequenceLength + pairLength - this.data.words[index1].length <= this.data.sequenceLength) {
+          sequenceLength += (pairLength - this.data.words[index1].length);
           child.genes.push(index2);
           index1 = index2;
           i++;
@@ -98,10 +98,10 @@ class Member {
     // Fill rest of sequence randomly
     while (sequenceLength < this.data.sequenceLength) {
       index2 = Math.floor(Math.random() * this.data.words.length);
-      let pair = this.data.pairs.find(pair => pair.equals(index1, index2));
+      let pairLength = this.data.pairLengths[index1][index2];
 
-      if (sequenceLength + pair.sequenceLength - this.data.words[index1].length <= this.data.sequenceLength) {
-        sequenceLength += (pair.sequenceLength - this.data.words[index1].length);
+      if (sequenceLength + pairLength - this.data.words[index1].length <= this.data.sequenceLength) {
+        sequenceLength += (pairLength - this.data.words[index1].length);
         child.genes.push(index2);
         index1 = index2;
       } else break;

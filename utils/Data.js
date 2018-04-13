@@ -10,7 +10,7 @@ class Data {
   constructor(path) {
     this.fileName = getFileName(path);
     this.words = Data.getWords(path);
-    this.pairs = this.getPairs();
+    this.pairLengths = this.getPairLengths();
 
     const instanceAttr = Data.getInstanceAttr(this.fileName, this.words[0]);
     this.sequenceLength = instanceAttr.n;
@@ -35,16 +35,31 @@ class Data {
     return { n, l, faultNum }
   };
 
-  getPairs() {
-    let pairs = [];
+  static calculateSequenceLength(word1, word2) {
+    let firstCompare, secondCompare;
+    for (let i = 1; i < word1.length; i++) {
+      firstCompare = word1.slice(i);
+      secondCompare = word2.slice(0, i * -1);
 
-    for (let i = 0; i < this.words.length; i++) {
-      for (let j = 0; j < this.words.length; j++) {
-        pairs.push(new WordPair(i, j, this.words[i], this.words[j]));
-      }
+      if (firstCompare === secondCompare)
+        return word1.length + i;
     }
 
-    return pairs;
+    return word1.length + word2.length;
+  }
+
+  getPairLengths() {
+    let matrix = [];
+
+    for (let i = 0; i < this.words.length; i++) {
+      let row = [];
+      for (let j = 0; j < this.words.length; j++) {
+        row.push(Data.calculateSequenceLength(this.words[i], this.words[j]));
+      }
+      matrix.push(row);
+    }
+
+    return matrix;
   }
 }
 
