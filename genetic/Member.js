@@ -18,7 +18,8 @@ class Member {
     let sequenceLength = this.data.words[index1].length;
 
     while (sequenceLength < this.data.sequenceLength) {
-      index2 = Math.floor(Math.random() * this.data.words.length);
+      let row = this.data.pairLengths[index1];
+      index2 = row.indexOf(Math.min(...row));
       let pairLength = this.data.pairLengths[index1][index2];
 
       if (sequenceLength + pairLength - this.data.words[index1].length <= this.data.sequenceLength) {

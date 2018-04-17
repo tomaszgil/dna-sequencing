@@ -48,8 +48,9 @@ class Population {
   evaluate() {
     const bestFitness = Math.max(...this.members.map(m => m.fitness));
     const bestMember = this.members.find(m => m.fitness === bestFitness);
+    const numElements = new Set(bestMember.genes).size;
     console.log(`Generation ${this.generation}:`);
-    console.log(`Best score ${bestMember.fitness}: ${bestMember.sequence}`);
+    console.log(`Best score ${numElements}: ${bestMember.sequence}`);
   }
 }
 
