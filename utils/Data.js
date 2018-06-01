@@ -16,7 +16,7 @@ class Data {
     this.sequenceLength = instanceAttr.n;
     this.wordLength = instanceAttr.l;
     this.faultNum = instanceAttr.faultNum;
-    this.choiceStructure = getChoiceStructure();
+    this.choiceStructure = this.getChoiceStructure();
     this.maxDiff= 4;
   }
 
@@ -66,7 +66,7 @@ class Data {
 
     getChoiceStructure() {
         //Used after this.wordLength is declared
-        choiceStructure=[];
+        let choiceStructure=[];
         for (let i = 0; i < this.words.length; i++) {
             let row = [];
             for (let k = 0; k < this.wordLength; k++) {
@@ -77,6 +77,9 @@ class Data {
                 let l2 = this.words[j].length;
                 let difference = l1 + l2 - this.pairLengths[i][j];
                 let overlap = l1 - difference;
+                if (!row[overlap]) {
+                    row[overlap] = [];
+                }
                 row[overlap].push(j);
             }
             choiceStructure.push(row);
