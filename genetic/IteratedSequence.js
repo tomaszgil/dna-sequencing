@@ -7,12 +7,16 @@ class IteratedSequence {
 		this.i++;
 	}
 	canMove() {
-		if (i >= this.sequence.length) {
+		if (this.i >= this.sequence.length) {
 			return false;
 		}
 		return true;
 	}
 	current() {
+	    while (this.sequence[this.i] == undefined) {
+	        //console.log("i=", this.i, " len=", this.sequence.length);
+	        this.i++;
+	    }
 		return this.sequence[this.i];
 	}
 	swapWith(otherSequence) {
@@ -24,9 +28,9 @@ class IteratedSequence {
 		otherSequence.i = tmpi;
 	}
 	dropToWith(child, evaluator) {
-		while( this.canMove() && evaluator.canProceed(this.get()) ){
-			child.genes.push(this.get());
-			evaluator.add(this.get());
+	    while (this.canMove() && evaluator.canProceed(this.current())) {
+	        child.genes.push(this.current());
+	        evaluator.add(this.current());
 		}
 	}
 }

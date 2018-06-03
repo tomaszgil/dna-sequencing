@@ -17,7 +17,10 @@ class OccurencesEvaluator {
             return this.history[index];
 		}
 	}
-	add(index) {
+    add(index) {
+        if (index == undefined) {
+            throw Error("undefined index");
+        }
 		if (this.history[index] == undefined) {
 			this.history[index] = 1;
 		}
@@ -26,6 +29,7 @@ class OccurencesEvaluator {
         }
 
         this.totalLen += this.data.pairLengths[this.last_element][index];
+        //console.log(this.data.words[index], index);
         this.totalLen -= this.data.words[index].length;
 
         this.last_element = index;
@@ -51,7 +55,7 @@ class OccurencesEvaluator {
             return false;
         }
     }
-    canProceed(index1) {
+    canProceed(index) {
         let l = this.totalLen + this.data.pairLengths[this.last_element][index] - this.data.words[index].length;
         return l <= this.data.sequenceLength;
     }

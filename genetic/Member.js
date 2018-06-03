@@ -136,7 +136,7 @@ class Member {
         worse.move();
         
         let evaluator = new OccurencesEvaluator(this.genes[0], this.data);
-        while (evaluator.canProceed()) {
+        while (worse.canMove() && prefered.canMove()) {
             if (evaluator.betterThan(prefered.current(), worse.current())) {
                 if (evaluator.count(worse.current()) > 0) {
                     worse.move();
@@ -202,6 +202,22 @@ class Member {
     }
 
     fixHoles() {
+        //rem start
+        /*
+        let idx = this.genes[0];
+        console.log(idx, this.data.words[idx]);
+        for (let i = 0; i < this.data.choiceStructure[idx].length; i++) {
+            console.log("Depth = ", i);
+            if (this.data.choiceStructure[idx][i] != undefined) {
+                for (let j = 0; j < this.data.choiceStructure[idx][i].length; j++) {
+                    let idx2 = this.data.choiceStructure[idx][i][j];
+                    console.log(j, idx2, this.data.words[idx2]);
+                }
+            }
+        }
+        exit();
+        */
+        //rem end
         for (let i = 0; i < this.genes.length - 2; i++) {
             let g0 = this.genes[i];
             let g1 = this.genes[i + 1];
@@ -214,7 +230,19 @@ class Member {
             if (diff > this.data.maxDiff) {
                 let newOverlay = Math.min(l0 - 1, l0 - diff + 1);
                 let arr = this.data.choiceStructure[g0][newOverlay];
-                this.genes[i] = arr[Math.floor(Math.random() * arr.length)];
+                if (arr == undefined) {
+                    let cslen = this.data.choiceStructure[g0].length;
+                    for (let j = 0; j < newOverlay; j++) {
+                        if (this.data.choiceStructure[g0][j] != undefined) {
+                            arr = this.data.choiceStructure[g0][j];
+                            break;
+                        }
+                    }
+                }
+                if (arr != undefined) {
+                    let tmp = arr[Math.floor(Math.random() * arr.length)];
+                    if (tmp != undefined) this.genes[i] = tmp;
+                }
             }
         }
     }

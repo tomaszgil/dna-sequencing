@@ -84,6 +84,7 @@ class Data {
             }
             choiceStructure.push(row);
         }
+        return choiceStructure;
     }
 
 }

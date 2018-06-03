@@ -37,8 +37,9 @@ class Population {
     for (let i = 0; i < this.members.length; i++) {
       let parent1 = randomChoice(this.members, this.probabilities);
       let parent2 = randomChoice(this.members, this.probabilities);
-      let child = parent1.crossover(parent2);
-      child.mutate(mutationRate);
+      let child = parent1.crossover2(parent2);
+        child.mutate2(mutationRate);
+        child.fixHoles();
       newMembers.push(child);
     }
     this.members = newMembers;
