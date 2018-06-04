@@ -145,13 +145,18 @@ class Member {
                         break;
                     }
                 }
-                child.genes.push(prefered.current());
-                evaluator.add(prefered.current());
-                prefered.move();
+
+                if (evaluator.canProceed(prefered.current())) {
+                  child.genes.push(prefered.current());
+                  evaluator.add(prefered.current());
+                  prefered.move();
+                }
+
                 if (!prefered.canMove()) {
                     worse.dropToWith(child, evaluator);
                     break;
                 }
+
                 prefered.swapWith(worse);
             }
             else {
@@ -162,9 +167,13 @@ class Member {
                         break;
                     }
                 }
-                child.genes.push(worse.current());
-                evaluator.add(worse.current());
-                worse.move();
+
+                if (evaluator.canProceed(worse.current())) {
+                  child.genes.push(worse.current());
+                  evaluator.add(worse.current());
+                  worse.move();
+                }
+
                 if (!worse.canMove()) {
                     prefered.dropToWith(child, evaluator);
                     break;

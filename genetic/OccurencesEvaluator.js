@@ -28,9 +28,9 @@ class OccurencesEvaluator {
 			this.history[index]+=1;
         }
 
-        this.totalLen += this.data.pairLengths[this.last_element][index];
-        //console.log(this.data.words[index], index);
-        this.totalLen -= this.data.words[index].length;
+    this.totalLen += this.data.pairLengths[this.last_element][index];
+    //console.log(this.data.words[index], index);
+    this.totalLen -= this.data.words[this.last_element].length;
 
         this.last_element = index;
     }
@@ -56,7 +56,7 @@ class OccurencesEvaluator {
         }
     }
     canProceed(index) {
-        let l = this.totalLen + this.data.pairLengths[this.last_element][index] - this.data.words[index].length;
+        let l = this.totalLen + this.data.pairLengths[this.last_element][index] - this.data.words[this.last_element].length;
         return l <= this.data.sequenceLength;
     }
     getRate(rate, index) {
