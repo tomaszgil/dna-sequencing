@@ -5,7 +5,8 @@ class GeneticSolver {
     this.populationSize = params.populationSize;
     this.maxGeneration = params.maxGeneration;
     this.mutationRate = params.mutationRate;
-    this.fitnessGrowth = params.fitnessGrowth;
+      this.fitnessGrowth = params.fitnessGrowth;
+      this.burningTime = params.burningTime;
     this.data = {};
   }
 
@@ -30,7 +31,7 @@ class GeneticSolver {
     this.population.evaluate();
 
     this.population.naturalSelection();
-    this.population.evolve();
+      this.population.evolve(this.mutationRate, this.burningTime, this.maxGeneration);//Wydaje mi si ¿e to powinno tu byæ
   }
 }
 

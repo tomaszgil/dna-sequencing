@@ -31,15 +31,24 @@ class Population {
     this.probabilities = this.members.map(m => m.fitness / sum);
   }
 
-  evolve(mutationRate) {
+  evolve(mutationRate, burningTime, maxGeneration) {
     let newMembers = [];
 
     for (let i = 0; i < this.members.length; i++) {
       let parent1 = randomChoice(this.members, this.probabilities);
       let parent2 = randomChoice(this.members, this.probabilities);
-      let child = parent1.crossover2(parent2);
-        child.mutate(mutationRate);
-        child.fixHoles();
+        let child;
+        if (maxGeneration * burningTime > this.generation) {
+            child = parent1.crossover2(parent2);
+            child.mutate2(mutationRate);
+        }
+        else {
+            child = parent1.crossover2(parent2);
+            //child.mutate2(mutationRate);
+            child.fixHoles();
+        }
+        //console.log("MR: ",mutationRate == undefined);
+        //exit();
       newMembers.push(child);
     }
     this.members = newMembers;
