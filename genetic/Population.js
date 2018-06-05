@@ -38,13 +38,13 @@ class Population {
       let parent1 = randomChoice(this.members, this.probabilities);
       let parent2 = randomChoice(this.members, this.probabilities);
         let child;
-        if (maxGeneration * burningTime > this.generation) {
-            child = parent1.crossover2(parent2);
+        if (this.generation < maxGeneration * burningTime) {
+            child = parent1.crossover(parent2);
             child.mutate2(mutationRate);
         }
         else {
             child = parent1.crossover2(parent2);
-            //child.mutate2(mutationRate);
+            child.mutate2(mutationRate);
             child.fixHoles();
         }
         //console.log("MR: ",mutationRate == undefined);
@@ -57,9 +57,10 @@ class Population {
 
   evaluate() {
     const bestFitness = Math.max(...this.members.map(m => m.fitness));
-    const bestMember = this.members.find(m => m.fitness === bestFitness);
-    console.log(`Generation ${this.generation}:`);
-    console.log(`Best score ${bestMember.fitness}: ${bestMember.sequence}`);
+      const bestMember = this.members.find(m => m.fitness === bestFitness);
+      const numElements = new Set(bestMember.genes).size;
+      console.log(`Generation ${this.generation}:`);
+      console.log(`Best score ${numElements}: ${bestMember.sequence}`);
   }
 }
 

@@ -33,7 +33,7 @@ class IteratedSequence {
 	        evaluator.add(this.current());
 		}
 	}
-	reverse() {
+	shuffle() {
 	    let oldseq = this.sequence;
 	    let newseq = [];
 	    let pivot = Math.floor(Math.random() * oldseq.length);
