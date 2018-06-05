@@ -16,6 +16,8 @@ class GeneticSolver {
     while (this.population.generation < this.maxGeneration) {
       this.draw();
     }
+
+    return this.population.bestScore;
   }
 
   initialize() {
@@ -26,11 +28,9 @@ class GeneticSolver {
 
   draw() {
     this.population.calculateFitness(this.fitnessGrowth);
-
     this.population.evaluate();
-
     this.population.naturalSelection();
-    this.population.evolve();
+    this.population.evolve(this.mutationRate);
   }
 }
 

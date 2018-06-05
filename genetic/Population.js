@@ -7,6 +7,9 @@ class Population {
     this.data = data;
     this.generation = 0;
     this.members = this.createMembers();
+
+    this.bestMember = null;
+    this.bestScore = 0;
   }
 
   createMembers() {
@@ -49,8 +52,13 @@ class Population {
     const bestFitness = Math.max(...this.members.map(m => m.fitness));
     const bestMember = this.members.find(m => m.fitness === bestFitness);
     const numElements = new Set(bestMember.genes).size;
-    console.log(`Generation ${this.generation}:`);
-    console.log(`Best score ${numElements}: ${bestMember.sequence}`);
+    // console.log(`Generation ${this.generation}:`);
+    // console.log(`Best score ${numElements}: ${bestMember.sequence}`);
+
+    if (numElements > this.bestScore) {
+      this.bestMember = bestMember;
+      this.bestScore = numElements;
+    }
   }
 }
 

@@ -1,0 +1,22 @@
+{
+  "name": "dna-sequencing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomaszgil/dna-sequencing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tomaszgil/dna-sequencing/issues"
+  },
+  "homepage": "https://github.com/tomaszgil/dna-sequencing#readme",
+  "dependencies": {
+    "performance-now": "^2.1.0"
+  }
+}
