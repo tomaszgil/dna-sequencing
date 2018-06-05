@@ -3,12 +3,13 @@ const Data = require('./utils/Data');
 const GeneticSolver = require('./genetic/GeneticSolver');
 const now = require('performance-now');
 
-const data = new Data('data/9.200+20.txt');
+
 const gs = new GeneticSolver({
-  populationSize: 400,
-  maxGeneration: 1000,
-  mutationRate: 0.01,
-  fitnessGrowth: 3
+    populationSize: 1000,
+    maxGeneration: 1000,
+    mutationRate: 0.03,
+    fitnessGrowth: 3,
+    burningTime: .7
 });
 
 const test = () => {

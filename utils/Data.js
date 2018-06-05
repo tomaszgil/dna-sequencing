@@ -16,6 +16,8 @@ class Data {
     this.sequenceLength = instanceAttr.n;
     this.wordLength = instanceAttr.l;
     this.faultNum = instanceAttr.faultNum;
+    this.choiceStructure = this.getChoiceStructure();
+    this.maxDiff= 4;
     this.optimum = instanceAttr.optimum;
   }
 
@@ -66,7 +68,31 @@ class Data {
     }
 
     return matrix;
-  }
+    }
+
+    getChoiceStructure() {
+        //Used after this.wordLength is declared
+        let choiceStructure=[];
+        for (let i = 0; i < this.words.length; i++) {
+            let row = [];
+            for (let k = 0; k < this.wordLength; k++) {
+                row.push([]);
+            }
+            for (let j = 0; j < this.words.length; j++) {
+                let l1 = this.words[i].length;
+                let l2 = this.words[j].length;
+                let difference = l1 + l2 - this.pairLengths[i][j];
+                let overlap = l1 - difference;
+                if (!row[overlap]) {
+                    row[overlap] = [];
+                }
+                row[overlap].push(j);
+            }
+            choiceStructure.push(row);
+        }
+        return choiceStructure;
+    }
+
 }
 
 module.exports = Data;

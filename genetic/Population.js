@@ -7,8 +7,7 @@ class Population {
     this.data = data;
     this.generation = 0;
     this.members = this.createMembers();
-
-    this.bestMember = null;
+    this.lastWinner = null;
     this.bestScore = 0;
   }
 
@@ -26,7 +25,7 @@ class Population {
   }
 
   calculateFitness(fitnessGrowth) {
-    this.members.forEach(member => member.calculateFitness(fitnessGrowth));
+      this.members.forEach(member => member.calculateFitness(fitnessGrowth));
   }
 
   naturalSelection() {
@@ -34,16 +33,29 @@ class Population {
     this.probabilities = this.members.map(m => m.fitness / sum);
   }
 
-  evolve(mutationRate) {
+  evolve(mutationRate, burningTime, maxGeneration) {
     let newMembers = [];
 
     for (let i = 0; i < this.members.length; i++) {
       let parent1 = randomChoice(this.members, this.probabilities);
       let parent2 = randomChoice(this.members, this.probabilities);
-      let child = parent1.crossover(parent2);
-      child.mutate(mutationRate);
+      let child;
+      if (this.generation < maxGeneration * burningTime) {
+          child = parent1.crossover(parent2);
+          child.mutate2(mutationRate);
+      } else {
+          child = parent1.crossover2(parent2);
+          child.mutate2(mutationRate);
+          child.fixHoles();
+      }
+
       newMembers.push(child);
     }
+
+    if (this.lastWinner !== null) {
+        newMembers[0] = this.lastWinner;
+    }
+
     this.members = newMembers;
     this.generation++;
   }
@@ -51,12 +63,12 @@ class Population {
   evaluate() {
     const bestFitness = Math.max(...this.members.map(m => m.fitness));
     const bestMember = this.members.find(m => m.fitness === bestFitness);
+    this.lastWinner = bestMember;
     const numElements = new Set(bestMember.genes).size;
     // console.log(`Generation ${this.generation}:`);
     // console.log(`Best score ${numElements}: ${bestMember.sequence}`);
 
     if (numElements > this.bestScore) {
-      this.bestMember = bestMember;
       this.bestScore = numElements;
     }
   }
