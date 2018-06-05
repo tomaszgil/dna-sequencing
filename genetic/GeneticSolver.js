@@ -5,8 +5,8 @@ class GeneticSolver {
     this.populationSize = params.populationSize;
     this.maxGeneration = params.maxGeneration;
     this.mutationRate = params.mutationRate;
-      this.fitnessGrowth = params.fitnessGrowth;
-      this.burningTime = params.burningTime;
+    this.fitnessGrowth = params.fitnessGrowth;
+    this.burningTime = params.burningTime;
     this.data = {};
   }
 
@@ -17,6 +17,8 @@ class GeneticSolver {
     while (this.population.generation < this.maxGeneration) {
       this.draw();
     }
+
+    return this.population.bestScore;
   }
 
   initialize() {
@@ -27,11 +29,9 @@ class GeneticSolver {
 
   draw() {
     this.population.calculateFitness(this.fitnessGrowth);
-
     this.population.evaluate();
-
     this.population.naturalSelection();
-      this.population.evolve(this.mutationRate, this.burningTime, this.maxGeneration);//Wydaje mi si ¿e to powinno tu byæ
+    this.population.evolve(this.mutationRate, this.burningTime, this.maxGeneration);
   }
 }
 

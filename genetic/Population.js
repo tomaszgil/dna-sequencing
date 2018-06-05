@@ -6,8 +6,9 @@ class Population {
     this.size = size;
     this.data = data;
     this.generation = 0;
-      this.members = this.createMembers();
-      this.lastWinner = null;
+    this.members = this.createMembers();
+    this.lastWinner = null;
+    this.bestScore = 0;
   }
 
   createMembers() {
@@ -38,34 +39,38 @@ class Population {
     for (let i = 0; i < this.members.length; i++) {
       let parent1 = randomChoice(this.members, this.probabilities);
       let parent2 = randomChoice(this.members, this.probabilities);
-        let child;
-        if (this.generation < maxGeneration * burningTime) {
-            child = parent1.crossover(parent2);
-            child.mutate2(mutationRate);
-        }
-        else {
-            child = parent1.crossover2(parent2);
-            child.mutate2(mutationRate);
-            child.fixHoles();
-        }
-        //console.log("MR: ",mutationRate == undefined);
-        //exit();
-        newMembers.push(child);
+      let child;
+      if (this.generation < maxGeneration * burningTime) {
+          child = parent1.crossover(parent2);
+          child.mutate2(mutationRate);
+      } else {
+          child = parent1.crossover2(parent2);
+          child.mutate2(mutationRate);
+          child.fixHoles();
       }
-      if (this.lastWinner != null) {
-          newMembers[0] = this.lastWinner;
-      }
-      this.members = newMembers;
+
+      newMembers.push(child);
+    }
+
+    if (this.lastWinner !== null) {
+        newMembers[0] = this.lastWinner;
+    }
+
+    this.members = newMembers;
     this.generation++;
   }
 
   evaluate() {
     const bestFitness = Math.max(...this.members.map(m => m.fitness));
-      const bestMember = this.members.find(m => m.fitness === bestFitness);
-      this.lastWinner = bestMember;
-      const numElements = new Set(bestMember.genes).size;
-      console.log(`Generation ${this.generation}:`);
-      console.log(`Best score ${numElements}: ${bestMember.sequence}`);
+    const bestMember = this.members.find(m => m.fitness === bestFitness);
+    this.lastWinner = bestMember;
+    const numElements = new Set(bestMember.genes).size;
+    // console.log(`Generation ${this.generation}:`);
+    // console.log(`Best score ${numElements}: ${bestMember.sequence}`);
+
+    if (numElements > this.bestScore) {
+      this.bestScore = numElements;
+    }
   }
 }
 

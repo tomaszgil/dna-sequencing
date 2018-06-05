@@ -18,6 +18,7 @@ class Data {
     this.faultNum = instanceAttr.faultNum;
     this.choiceStructure = this.getChoiceStructure();
     this.maxDiff= 4;
+    this.optimum = instanceAttr.optimum;
   }
 
   static getWords(path) {
@@ -34,7 +35,12 @@ class Data {
     const n = parseInt(info[1]) + l - 1;
     const faultNum = parseInt(info[2]) * faultType;
 
-    return { n, l, faultNum }
+    let optimum = parseInt(info[1]);
+    if (faultType === -1) {
+      optimum += faultNum;
+    }
+
+    return { n, l, faultNum, optimum }
   };
 
   static calculateSequenceLength(word1, word2) {
