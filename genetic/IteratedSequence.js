@@ -33,6 +33,18 @@ class IteratedSequence {
 	        evaluator.add(this.current());
 		}
 	}
+	reverse() {
+	    let oldseq = this.sequence;
+	    let newseq = [];
+	    let pivot = Math.floor(Math.random() * oldseq.length);
+	    for (let i = pivot; i < oldseq.length; i++) {
+	        newseq.push(oldseq[i]);
+	    }
+	    for (let i = 0; i < pivot; i++) {
+	        newseq.push(oldseq[i]);
+	    }
+	    this.sequence = newseq;
+	}
 }
 
 module.exports = IteratedSequence;

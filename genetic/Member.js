@@ -129,15 +129,15 @@ class Member {
         let child = new Member(this.data);
         //let i = 0;
         //let midPoint = Math.floor(Math.random() * this.genes.length);
-
         child.genes.push(this.genes[0]);
-        let prefered = new IteratedSequence( partner.genes);
+        let prefered = new IteratedSequence(partner.genes);
+        prefered.reverse();
         let worse = new IteratedSequence(this.genes);
         worse.move();
         
         let evaluator = new OccurencesEvaluator(this.genes[0], this.data);
         while (worse.canMove() && prefered.canMove()) {
-            if (evaluator.betterThan(prefered.current(), worse.current())) {
+            if (!evaluator.betterThan(prefered.current(), worse.current())) {
                 if (evaluator.count(worse.current()) > 0) {
                     worse.move();
                     if (!worse.canMove()) {
